@@ -47,9 +47,15 @@ pkgs.stdenv.mkDerivation rec {
       cp -R * $outdir/Data/
     fi
 
-    mkdir -p $out/redist
-    echo aria2c -V --seed-ratio=0.0 -d$(find ${src} -type f -name "*.7z") "${torrent_magnet}" > $out/redist/${mod_id}_${file_id}.sh
-    chmod a+x $out/redist/${mod_id}_${file_id}.sh
+    
+
+    if [ "${torrent_magnet}" != "NONE" ]; then
+      mkdir -p $out/redist
+      echo aria2c -V --seed-ratio=0.0 --bt-seed-unverified -d\"$(find ${src} -type f -name "*.7z")\" \""${torrent_magnet}"\" > $out/redist/${mod_id}_${file_id}.sh
+      chmod a+x $out/redist/${mod_id}_${file_id}.sh
+    else
+      echo "torrenting disabled"
+    fi
   '';
 
   #override to remove files etc... to avoid conflicts
