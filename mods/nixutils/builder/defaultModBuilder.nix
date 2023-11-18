@@ -11,10 +11,12 @@
   torrent_magnet,
   game_name ? "skyrimspecialedition", #skyrim se default
   nexus_mods_cookie,
-  mod_downloader
+  mod_downloader,
+  modlist_name ? "skyrim-se-modding"
 }:
 
 pkgs.stdenv.mkDerivation rec {
+  phases = [ "unpackPhase" "installPhase" "FixupPhase"]; 
 
   pname = "${mod_name}";
   version = "${mod_version}";
@@ -27,17 +29,27 @@ pkgs.stdenv.mkDerivation rec {
     torrent_magnet = "${torrent_magnet}";
   };
 
-  nativeBuildInputs = [pkgs.p7zip pkgs.torrenttools];
-  unpackPhase = ''
-      7z x -aoa ${src}
-      '';
+  nativeBuildInputs = [pkgs.p7zip pkgs.torrenttools pkgs.rsync];
+  unpackPhase = ./smartUnpacker.sh;
+
 
 
   installPhase = ''
-    mkdir -p $out/skyrim-se-modded/Data
+    echo $(ls) 2>&1
+    outdir=$out/${modlist_name}
+    mkdir -p $outdir/Data
     rm env-vars
-    cp -r * $out/skyrim-se-modded/Data/
+  
+
+    if [ -d Data ]; then
+      cp -R Data/ $outdir/Data 
+    else
+      cp -R * $outdir/Data/
+    fi
   '';
+
+  #override to remove files etc... to avoid conflicts
+  FixupPhase = '':'';
 
   meta = with pkgs.lib; {
     description = mod_description;
