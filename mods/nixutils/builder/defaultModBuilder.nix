@@ -46,6 +46,10 @@ pkgs.stdenv.mkDerivation rec {
     else
       cp -R * $outdir/Data/
     fi
+
+    mkdir -p $out/redist
+    echo aria2c -V --seed-ratio=0.0 -d$(find ${src} -type f -name "*.7z") "${torrent_magnet}" > $out/redist/${mod_id}_${file_id}.sh
+    chmod a+x $out/redist/${mod_id}_${file_id}.sh
   '';
 
   #override to remove files etc... to avoid conflicts

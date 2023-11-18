@@ -3,6 +3,7 @@
   defaultModBuilder ? ../../nixutils/builder/defaultModBuilder.nix,
   mod_downloader ? ../../nixutils/downloaders/nexusmods,
   nexus_mods_cookie ? "",
+  modlist_name,
   ...
 }:
 pkgs.callPackage defaultModBuilder {
