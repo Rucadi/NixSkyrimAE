@@ -1,4 +1,4 @@
-{pkgs, modlist_name, ...}:
+{pkgs, modlist_name, lib, ...}:
 rec {
     
     callPackage = lib.callPackageWith modlist_name;
