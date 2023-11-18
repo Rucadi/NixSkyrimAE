@@ -9,7 +9,8 @@
       pkgs = import nixpkgs { inherit system; };
     in 
     {
-      USSEP = pkgs.callPackage ./mods/bugfixes/USSEP {};
-      #packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
+        SkyrimAE =  import ./. { inherit system pkgs; };
+        #SkyrimSE = forAllSystems (system: import ./. { inherit system; });
+        #SkyrimLE = forAllSystems (system: import ./. { inherit system; });
     };
-  }
+}
