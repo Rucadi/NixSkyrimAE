@@ -12,7 +12,7 @@
   game_name ? "skyrimspecialedition", #skyrim se default
   nexus_mods_cookie,
   mod_downloader,
-  modlist_name ? "skyrim-se-modding"
+  modlist_name ? "skyrim-AA-modding"
 }:
 
 pkgs.stdenv.mkDerivation rec {
