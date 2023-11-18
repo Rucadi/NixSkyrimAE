@@ -1,5 +1,6 @@
 {pkgs, modlist_name, ...}:
 rec {
+    inherit modlist_name;
     defaultModBuilder = pkgs.callPackage ./nixutils/builder/defaultModBuilder.nix {};
 
     USSEP = pkgs.callPackage ./bugfixes/USSEP {};
