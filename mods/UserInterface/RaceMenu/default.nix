@@ -7,8 +7,7 @@
   ...
 }:
 pkgs.callPackage defaultModBuilder {
-  inherit mod_downloader;
-  inherit nexus_mods_cookie;
+  inherit mod_downloader modlist_name nexus_mods_cookie;
   mod_author="expired6978";
   mod_name="RaceMenu";
   mod_description="Complete overhaul to the character creation menu including new customization features such as multiple RGBA warpaints, body paints, hand paint, and foot paints. (Requires SKSE)";

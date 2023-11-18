@@ -6,8 +6,7 @@
   ...
 }:
 pkgs.callPackage defaultModBuilder {
-  inherit mod_downloader;
-  inherit nexus_mods_cookie;
+  inherit mod_downloader modlist_name nexus_mods_cookie;
   mod_author="";
   mod_name="Unofficial Skyrim Special Edition Patch - USSEP";
   mod_description="A comprehensive bugfixing mod for The Elder Scrolls V: Skyrim - Special Edition. The goal of the Unofficial Skyrim Special Edition Patch (aka USSEP) is to eventually fix every bug with Skyrim Special Edition not officially resolved by the developers to the limits of the Creation Kit and community-developed tools, in one easy-to-install package.";

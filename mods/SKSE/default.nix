@@ -1,5 +1,5 @@
 { pkgs, 
-  modlist_name ? "skyrim-se-modding"
+  modlist_name
 }:
 let
   inherit (pkgs) lib fetchurl stdenv p7zip;
