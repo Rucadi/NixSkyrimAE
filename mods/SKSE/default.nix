@@ -1,18 +1,21 @@
-{ pkgs, 
+{
+  pkgs,
+  defaultModBuilder ? ../../nixutils/builder/defaultModBuilder.nix,
+  mod_downloader ? ../../nixutils/downloaders/nexusmods,
+  nexus_mods_cookie ? "",
   modlist_name,
   ...
 }:
-pkgs.mkDerivation {
+pkgs.stdenv.mkDerivation rec {
   pname = "skse64";
-
   version = "2_02_03";
-
-  src = fetchurl {
+  src = pkgs.fetchurl {
     url = "https://skse.silverlock.org/beta/skse64_${version}.7z";
-    sha256 = "073hd8814qkhhcywy241mjqyjf7l7niwqy1zg301da19qsycxnag";
+    sha256 = "073hd8814qkhhcywy241mjqyjf7l7niwqy1zg301da19qsycxnag"; # You need to replace this with the actual hash of the downloaded file.
   };
 
-  nativeBuildInputs =  [pkgs.p7zip];
+  nativeBuildInputs = [ pkgs.libarchive pkgs.p7zip];
+
   unpackPhase = "7z x $src";
 
   installPhase = ''
@@ -21,10 +24,8 @@ pkgs.mkDerivation {
     rm -rf $out/${modlist_name}/src
   '';
 
-  meta = with lib; {
+  meta = with pkgs.lib; {
     description = "Skyrim Script Extender 64";
-    license = licenses.MIR;
-    url= "https://skse.silverlock.org/"
   };
 }
 
