@@ -1,30 +1,19 @@
 {
   pkgs,
-    downloader ? ../../nixutils/downloaders/nexusmods
+  defaultModBuilder ? ../../nixutils/builder/defaultModBuilder.nix,
+  mod_downloader ? ../../nixutils/downloaders/nexusmods,
+  nexus_mods_cookie ? "",
+  ...
 }:
-pkgs.stdenv.mkDerivation rec {
-  pname = "USSEP";
-  version = "";
-
-  src = pkgs.callPackage downloader {
-    mod_id="266";
-    file_id="392477";
-    sha256 = "sha256-pjavXj0UjSPUiSwTzCbhc0WNhuKyHKJZG/9oGXaIkFk="; # You need to replace this with the actual hash of the downloaded file.
-  };
-
-  nativeBuildInputs = [pkgs.p7zip];
-
-  unpackPhase = "7z x $src";
-
-  installPhase = ''
-    mkdir -p $out/skyrim-se-modded/Data
-    touch $out/worked
-    cp -r * $out/skyrim-se-modded/Data/
-  '';
-
-  meta = with pkgs.lib; {
-    description = "Skyrim USSEP";
-    #license = licenses.MIT;
-  };
+pkgs.callPackage defaultModBuilder {
+  inherit mod_downloader;
+  inherit nexus_mods_cookie;
+  mod_author="";
+  mod_name="Unofficial Skyrim Special Edition Patch - USSEP";
+  mod_description="A comprehensive bugfixing mod for The Elder Scrolls V: Skyrim - Special Edition. The goal of the Unofficial Skyrim Special Edition Patch (aka USSEP) is to eventually fix every bug with Skyrim Special Edition not officially resolved by the developers to the limits of the Creation Kit and community-developed tools, in one easy-to-install package.";
+  mod_version="18 Nov 2023";
+  mod_id="266";
+  file_id="392477";
+  sha256 = "sha256-pjavXj0UjSPUiSwTzCbhc0WNhuKyHKJZG/9oGXaIkFk="; 
+  torrent_magnet = "magnet:?xt=urn:btih:28bf4501579b4de5fe94f3fb56386bf7dc421ca4&dn=Unofficial%20Skyrim%20Special%20Edition%20Patch-266-4-2-9a-1685216241.7z";
 }
-

@@ -33,21 +33,27 @@ url=$(curl -s  'https://www.nexusmods.com/Core/Libs/Common/Managers/Downloads?Ge
     fi
 }
 
-# Example usage:
-#cookie=''
-#mod_id="104737"
-#file_id="442608"
-#game_name="skyrimspecialedition"
-#game_id="1704" #skyrim
-
 download_url=$(get_dl_url)
 
 echo "Downloading from url: "
 cleaned_filename=$(sed "s/\?.*//g" <<< "$download_url")
-filename=$(basename "$cleaned_filename") 
+filename=$(basename "$cleaned_filename")
 mkdir -p $out
-
-
 prepared_url="$(sed "s/ /%20/g" <<< "$download_url")"
 echo "$prepared_url" 2>&1
-cd $out && aria2c --check-certificate=false "$prepared_url"
+cd $out && aria2c -x 4 --check-certificate=false "$prepared_url" -o "$filename"
+
+export TORRENT_FILE=$(torrenttools create "$filename" | tail -1 | cut -d ' ' -f 4-)
+export MAGNET=$(torrenttools magnet "$TORRENT_FILE")
+rm "$TORRENT_FILE"
+
+
+if [ "$MAGNET" != "$torrent_magnet" ]; then
+    echo "Torrent magnet differs:"
+    echo "Defined: $torrent_magnet"
+    echo "Got:  $MAGNET"
+    echo "Differences detected. Exiting with an error code." >&2
+    exit 8
+else
+    echo "Success"
+fi
