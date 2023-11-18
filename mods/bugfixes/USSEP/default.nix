@@ -9,7 +9,7 @@ pkgs.stdenv.mkDerivation rec {
   src = pkgs.callPackage downloader {
     mod_id="266";
     file_id="392477";
-    sha256 = "sha256-pjavXj0UjSPUiSwTzCbhc0WNhuKyHKJZG/9oGXaIkak="; # You need to replace this with the actual hash of the downloaded file.
+    sha256 = "sha256-pjavXj0UjSPUiSwTzCbhc0WNhuKyHKJZG/9oGXaIkFk="; # You need to replace this with the actual hash of the downloaded file.
   };
 
   nativeBuildInputs = [pkgs.p7zip];
