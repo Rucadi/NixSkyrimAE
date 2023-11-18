@@ -18,6 +18,7 @@ pkgs.stdenv.mkDerivation rec {
 
   installPhase = ''
     mkdir -p $out/skyrim-se-modded/Data
+    touch $out/worked
     cp -r * $out/skyrim-se-modded/Data/
   '';
 
