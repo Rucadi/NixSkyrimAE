@@ -1,7 +1,7 @@
 {pkgs, modlist_name, lib, ...}:
 rec {
     
-    callPackage = lib.callPackageWith {inherit modlist_name;};
+    callPackage = lib.callPackageWith {inherit modlist_name pkgs;};
 
     defaultModBuilder = callPackage ./nixutils/builder/defaultModBuilder.nix {};
 
