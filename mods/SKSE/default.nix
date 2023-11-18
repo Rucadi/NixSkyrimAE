@@ -2,11 +2,9 @@
   modlist_name,
   ...
 }:
-let
-  inherit (pkgs) lib fetchurl stdenv p7zip;
-in
-stdenv.mkDerivation rec {
+pkgs.mkDerivation {
   pname = "skse64";
+
   version = "2_02_03";
 
   src = fetchurl {
@@ -14,7 +12,7 @@ stdenv.mkDerivation rec {
     sha256 = "073hd8814qkhhcywy241mjqyjf7l7niwqy1zg301da19qsycxnag";
   };
 
-  nativeBuildInputs =  [p7zip];
+  nativeBuildInputs =  [pkgs.p7zip];
   unpackPhase = "7z x $src";
 
   installPhase = ''
