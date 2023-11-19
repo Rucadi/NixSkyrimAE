@@ -42,18 +42,3 @@ mkdir -p $out
 prepared_url="$(sed "s/ /%20/g" <<< "$download_url")"
 echo "$prepared_url" 2>&1
 cd $out && aria2c -x 4 --check-certificate=false "$prepared_url" -o "$filename"
-
-export TORRENT_FILE=$(torrenttools create "$filename" | tail -1 | cut -d ' ' -f 4-)
-export MAGNET=$(torrenttools magnet "$TORRENT_FILE")
-rm "$TORRENT_FILE"
-
-
-if [ "$MAGNET" != "$torrent_magnet" ]; then
-    echo "Torrent magnet differs:"
-    echo "Defined: $torrent_magnet"
-    echo "Got:  $MAGNET"
-    echo "Differences detected. Exiting with an error code." >&2
-    exit 8
-else
-    echo "Success"
-fi

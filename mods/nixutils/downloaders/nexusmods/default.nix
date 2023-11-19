@@ -9,25 +9,23 @@
   ,
   sha256 ? ""
   ,
-  torrent_magnet ? "NONE"
-  ,
   game_name ? "skyrimspecialedition" #skyrim se default
   ,
   nexus_mods_cookie
 
 }:
 let
-  inherit (pkgs) lib fetchurl libarchive stdenv p7zip aria2 torrenttools;
+  inherit (pkgs) lib fetchurl libarchive stdenv p7zip aria2;
 in
 
 
 stdenv.mkDerivation rec {
   
-  nativeBuildInputs = [pkgs.jq pkgs.curl pkgs.cacert pkgs.gnused aria2 torrenttools];
+  nativeBuildInputs = [pkgs.jq pkgs.curl pkgs.cacert pkgs.gnused aria2];
   SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
 
   pname = "NexusDownload";
-  requiredInputs = [ "game_id" "mod_id" "file_id" "game_name" "torrent_magnet" "nexus_mods_cookie"];
+  requiredInputs = [ "game_id" "mod_id" "file_id" "game_name" "nexus_mods_cookie"];
 
   impureEnvVars = "cookie";
   outputHashAlgo = "sha256";
@@ -43,7 +41,6 @@ stdenv.mkDerivation rec {
                                                 export mod_id=${mod_id}
                                                 export file_id=${file_id}
                                                 export game_name=${game_name}
-                                                export torrent_magnet='${torrent_magnet}'
                                                 '') ];
   shellHook = ''
     source $(cat $PWD/envars.srcsh)

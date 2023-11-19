@@ -15,5 +15,5 @@ pkgs.callPackage defaultModBuilder {
   mod_id="19080";
   file_id="327229";
   sha256 = "sha256-ZhaW+K4cZ4/kw3hL3oDpftvK4JPVtgLt3iNG8qmtM6k="; 
-  torrent_magnet = "NONE";
+  bith = "8f2de5df3cd6a11570457b5f5464fc046e78162a";
 }
