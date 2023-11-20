@@ -14,7 +14,8 @@
   nexus_mods_cookie,
   mod_downloader,
   modlist_name,
-  mod_root_folder ? "."
+  mod_root_folder ? ".",
+  mod_root_files ? "" #"true" if the mod needs to be on the root folder and not in the data folder.
 }:
 
 pkgs.stdenv.mkDerivation rec {
@@ -62,6 +63,10 @@ pkgs.stdenv.mkDerivation rec {
 
     rename_if_exists Data
     rm -rf env-vars
+
+    if [ ${mod_root_files} == 'true' ]; then
+      return 0
+    fi
 
     if [ -d "Data" ]; then
       pushd Data
