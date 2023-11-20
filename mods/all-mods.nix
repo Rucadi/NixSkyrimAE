@@ -5,7 +5,7 @@ rec {
 
     defaultModBuilder = callPackage ./nixutils/builder/defaultModBuilder.nix {};
 
-    USSEP = callPackage ./bugfixes/USSEP {};
+    USSEP = callPackage ./BugFixes/USSEP {};
     
     SKYRIM202X_1 = callPackage ./ModelsAndTextures/SKYRIM202X_part1 { };
     SKYRIM202X_2 = callPackage ./ModelsAndTextures/SKYRIM202X_part2 { };
@@ -23,4 +23,6 @@ rec {
     
     SKSE = callPackage ./SKSE {};
     RaceMenu = callPackage ./UserInterface/RaceMenu {};
+
+    AlternateStart = callPackage ./Gameplay/AlternateStart {};
 }

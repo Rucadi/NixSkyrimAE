@@ -64,7 +64,9 @@ pkgs.stdenv.mkDerivation rec {
     if [ -d "Data" ]; then
       pushd Data
     else 
-      pushd .
+      mkdir Data
+      find . -maxdepth 1 -not -name "Data" -exec mv {} "Data" \;
+      pushd Data
     fi
     rename_if_exists SKSE
     rename_if_exists Docs
