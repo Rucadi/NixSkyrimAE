@@ -22,6 +22,9 @@ rec {
             };
     
     SKSE = callPackage ./SKSE {};
+
+    AdressLibrarySKSEPlugins = callPackage ./SKSE/AdressLibrarySKSEPlugins {};
+
     RaceMenu = callPackage ./UserInterface/RaceMenu {};
 
     AlternateStart = callPackage ./Gameplay/AlternateStart {};

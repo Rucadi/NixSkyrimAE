@@ -52,6 +52,7 @@ pkgs.stdenv.mkDerivation rec {
     }
  
     7z x -aoa $src
+    ls -lah 2>&1
     
     if [ "${mod_root_folder}" != "." ]; then
       mv ${mod_root_folder}/* .
@@ -60,7 +61,8 @@ pkgs.stdenv.mkDerivation rec {
 
 
     rename_if_exists Data
-    
+    rm -rf env-vars
+
     if [ -d "Data" ]; then
       pushd Data
     else 
@@ -90,10 +92,10 @@ pkgs.stdenv.mkDerivation rec {
 
     
     mkdir -p $out/redist
-    ln -s "$(find ${src} -type f -name "*.7z")" $out/redist
+    ln -s "$(find ${src} -type f -name "*")" $out/redist
     filename=$(ls $out/redist)
     if [ "${bith}" != "NONE" ]; then
-      mktorrent -l 22  -o "$out/redist/$filename.torrent"  ${torrent_extra_trackers}  "$(find ${src} -type f -name "*.7z")"
+      mktorrent -l 22  -o "$out/redist/$filename.torrent"  ${torrent_extra_trackers}  "$(find ${src} -type f -name "*")"
       torrent_magnet=$(torrenttools magnet "$out/redist/$filename.torrent")
       echo "$torrent_magnet" > "$out/redist/$filename.torrent.magnet"
       correct_bith=$(echo "$torrent_magnet" | grep -oP "(?<=xt=urn:btih:)[^&]+")
