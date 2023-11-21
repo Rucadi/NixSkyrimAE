@@ -9,8 +9,6 @@
       pkgs = import nixpkgs { inherit system; };
     in 
     {
-        SkyrimAE =  import ./. { inherit system pkgs; lib=pkgs.lib; nexus_mods_cookie=""; modlist_name="test"; };
-        #SkyrimSE = forAllSystems (system: import ./. { inherit system; });
-        #SkyrimLE = forAllSystems (system: import ./. { inherit system; });
+        SkyrimAE =  import ./. { inherit system pkgs;  nexus_mods_cookie=""; modlist_name="test"; };
     };
 }

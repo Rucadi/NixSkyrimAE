@@ -19,7 +19,7 @@
 }:
 
 pkgs.stdenv.mkDerivation rec {
-  phases = [ "unpackPhase" "installPhase" "FixupPhase"]; 
+  phases = [ "unpackPhase" "patchPhase" "installPhase" "FixupPhase" "distributionPhase"]; 
 
   pname = "${mod_name}";
   version = "${mod_version}";
@@ -32,59 +32,60 @@ pkgs.stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [pkgs.p7zip pkgs.torrenttools pkgs.rsync pkgs.mktorrent pkgs.torrenttools pkgs.bash];
-  unpackPhase = ''
-  
-    get_real_name() {
-        folder_name=$1
-        real_name=$(find . -maxdepth 1 -type d -iname "$folder_name" -printf "%f\n")
-        echo "$real_name"
-    }
 
-    rename_if_exists()
-    {
-      folder="$1"
-      real_name=$(get_real_name "$folder")
-      if [ "$real_name" == "$folder" ]; then
-          return 0
+
+    unpackPhase = ''
+      7z x -aoa $src
+    '';
+
+    patchPhase = ''
+      get_real_name() {
+          folder_name=$1
+          real_name=$(find . -maxdepth 1 -type d -iname "$folder_name" -printf "%f\n")
+          echo "$real_name"
+      }
+
+      rename_if_exists()
+      {
+        folder="$1"
+        real_name=$(get_real_name "$folder")
+        if [ "$real_name" == "$folder" ]; then
+            return 0
+        fi
+        if [ "$real_name" != "" ]; then
+            mv "$real_name" "$folder"
+        fi
+      }
+
+
+      
+      if [ "${mod_root_folder}" != "." ]; then
+        mv ${mod_root_folder}/* .
+        rm -rf ${mod_root_folder}
       fi
-      if [ "$real_name" != "" ]; then
-          mv "$real_name" "$folder"
+
+      rename_if_exists Data
+      rm -rf env-vars
+
+      if [ ${mod_root_files} == 'true' ]; then
+        return 0
       fi
-    }
- 
-    7z x -aoa $src
-    ls -lah 2>&1
-    
-    if [ "${mod_root_folder}" != "." ]; then
-      mv ${mod_root_folder}/* .
-      rm -rf ${mod_root_folder}
-    fi
 
-
-    rename_if_exists Data
-    rm -rf env-vars
-
-    if [ ${mod_root_files} == 'true' ]; then
-      return 0
-    fi
-
-    if [ -d "Data" ]; then
-      pushd Data
-    else 
-      mkdir Data
-      find . -maxdepth 1 -not -name "Data" -exec mv {} "Data" \;
-      pushd Data
-    fi
-    rename_if_exists SKSE
-    rename_if_exists Docs
-    rename_if_exists Interface
-    rename_if_exists textures
-    rename_if_exists meshes
-    rename_if_exists Scripts
-    popd
-
+      if [ -d "Data" ]; then
+        pushd Data
+      else 
+        mkdir Data
+        find . -maxdepth 1 -not -name "Data" -exec mv {} "Data" \;
+        pushd Data
+      fi
+      rename_if_exists SKSE
+      rename_if_exists Docs
+      rename_if_exists Interface
+      rename_if_exists textures
+      rename_if_exists meshes
+      rename_if_exists Scripts
+      popd
   '';
-
 
 
   installPhase = ''
@@ -92,10 +93,11 @@ pkgs.stdenv.mkDerivation rec {
     outdir=$out/${modlist_name}
     mkdir -p $outdir
     rm -rf env-vars
-  
     cp -R * $outdir/ 
+  '';
 
-    
+
+  distributionPhase = ''
     mkdir -p $out/redist
     ln -s "$(find ${src} -type f -name "*")" $out/redist
     filename=$(ls $out/redist)

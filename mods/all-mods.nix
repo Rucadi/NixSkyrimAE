@@ -12,6 +12,7 @@ rec {
     SKYRIM202X_1 = callPackage ./ModelsAndTextures/SKYRIM202X_part1 { };
     SKYRIM202X_2 = callPackage ./ModelsAndTextures/SKYRIM202X_part2 { };
     SKYRIM202X_3 = callPackage ./ModelsAndTextures/SKYRIM202X_part3 { };
+    SMIM = callPackage ./ModelsAndTextures/SMIM { };
     
     SKYRIM202X = pkgs.buildEnv rec {
                         name = "SKYRIM202X";
