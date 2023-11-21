@@ -8,6 +8,8 @@ rec {
     USSEP = callPackage ./BugFixes/USSEP {};
     SSEEngineFixes = callPackage ./BugFixes/SSEEngineFixes {};
     USMPSE = callPackage ./BugFixes/USMPSE {};
+    PowerOfThreesTweaks = callPackage ./BugFixes/PowerOfThreesTweaks {};
+    PapyrusExtender = callPackage ./BugFixes/PapyrusExtender {};
 
     SKYRIM202X_1 = callPackage ./ModelsAndTextures/SKYRIM202X_part1 { };
     SKYRIM202X_2 = callPackage ./ModelsAndTextures/SKYRIM202X_part2 { };
